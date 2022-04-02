@@ -3,6 +3,8 @@
 // type B = 2
 // type example = A extends B ? true : false //false
 
+import { type } from "os"
+
 // 数组、tuple模式匹配
 type A = [1, 2, 3]
 type FirstType<A extends unknown[]> = A extends [infer first, ... infer reset] ? first : never
@@ -39,3 +41,24 @@ type Not<T extends boolean> = T extends true ? false : true
 
 type FF = Not<true> //false
 type CC = Not<false> //true
+
+// 判断相等
+
+type CheckLeftIsExtendsRight<T, R> = T extends R ? true : false
+type SS = CheckLeftIsExtendsRight<true, true> //true
+type SS2 = CheckLeftIsExtendsRight<true, false> //false
+type SS3 = CheckLeftIsExtendsRight<1, number> //true
+
+//判断左侧类型是否和右侧一致 
+// isEqual 
+
+// 将支持的类型转化为字符串
+// 设置只可将安全类型转为字符串，不安全的不考虑
+type canStringified = string | number | bigint | boolean | null | undefined
+
+type Stringify<T extends canStringified> = `${T}`
+
+type S1 = Stringify<123>//"123"
+type S2 = Stringify<'sadsa'>//"sadsa"
+// type S3 = Stringify<{}>//error
+
